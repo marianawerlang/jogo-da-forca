@@ -111,3 +111,53 @@ def desenhar_forca(canvas, erros):
 
     if erros >= 6:
         c.create_line(140, 140, 160, 170, width=2)  # perna direita
+
+
+# Cria a janela principal
+window = sg.Window(
+    "Jogo da Forca",
+    criar_layout()
+)
+
+# Variáveis do jogo
+palavra = ""
+descobertas = []
+letras_usadas = []
+erros = 0
+
+# Loop principal do programa
+while True:
+
+    # Captura eventos da interface
+    event, values = window.read()
+
+    # Fecha o programa ao clicar no X
+    if event == sg.WIN_CLOSED:
+        break
+
+    # Inicia uma nova partida
+    if event == "Iniciar Jogo":
+
+        # Verifica qual dificuldade foi escolhida
+        dificuldade = "facil" if values["-FACIL-"] else "dificil"
+
+        # Carrega palavra aleatória
+        palavra = carregar_palavra(dificuldade)
+
+        if palavra:
+
+            # Cria lista com traços representando as letras ocultas
+            descobertas = ["_" for _ in palavra]
+
+            # Reinicia variáveis do jogo
+            letras_usadas = []
+            erros = 0
+
+            # Atualiza interface
+            window["-PALAVRA-"].update(" ".join(descobertas))
+            window["-ERROS-"].update("Erros: 0/6")
+
+            desenhar_forca(window["-FORCA-"], 0)
+
+# Fecha a janela ao terminar o programa
+window.close()
