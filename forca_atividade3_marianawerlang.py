@@ -76,3 +76,38 @@ def criar_layout():
     ]
 
     return layout
+
+
+# Desenha a forca conforme a quantidade de erros
+def desenhar_forca(canvas, erros):
+
+    c = canvas.TKCanvas
+
+    # Limpa o desenho anterior
+    c.delete("all")
+
+    # Estrutura fixa da forca
+    c.create_line(20, 220, 180, 220, width=3)  # base
+    c.create_line(50, 220, 50, 20, width=3)    # poste
+    c.create_line(50, 20, 140, 20, width=3)    # topo
+    c.create_line(140, 20, 140, 50, width=3)   # corda
+
+    # A cada erro desenha uma parte do corpo
+
+    if erros >= 1:
+        c.create_oval(120, 50, 160, 90, width=2)  # cabeça
+
+    if erros >= 2:
+        c.create_line(140, 90, 140, 140, width=2)  # corpo
+
+    if erros >= 3:
+        c.create_line(140, 100, 110, 120, width=2)  # braço esquerdo
+
+    if erros >= 4:
+        c.create_line(140, 100, 170, 120, width=2)  # braço direito
+
+    if erros >= 5:
+        c.create_line(140, 140, 120, 170, width=2)  # perna esquerda
+
+    if erros >= 6:
+        c.create_line(140, 140, 160, 170, width=2)  # perna direita
