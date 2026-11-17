@@ -159,5 +159,70 @@ while True:
 
             desenhar_forca(window["-FORCA-"], 0)
 
+    # Verifica se foi clicada alguma letra
+    elif event in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+
+        # Só permite jogar se existir uma partida ativa
+        if palavra:
+
+            # Impede repetir letras já utilizadas
+            if event in letras_usadas:
+                continue
+
+            # Registra a letra utilizada
+            letras_usadas.append(event)
+
+            # Verifica se a letra está na palavra
+            if event in palavra:
+
+                # Revela todas as ocorrências da letra
+                for i, letra in enumerate(palavra):
+
+                    if letra == event:
+                        descobertas[i] = letra
+
+                # Atualiza a palavra na tela
+                window["-PALAVRA-"].update(
+                    " ".join(descobertas)
+                )
+
+                # Verifica vitória
+                if "_" not in descobertas:
+
+                    sg.popup(
+                        "Parabéns!",
+                        "Você venceu!"
+                    )
+
+                    # Encerra a partida atual
+                    palavra = ""
+
+            else:
+
+                # Incrementa o contador de erros
+                erros += 1
+
+                # Atualiza desenho da forca
+                desenhar_forca(
+                    window["-FORCA-"],
+                    erros
+                )
+
+                # Atualiza contador visual
+                window["-ERROS-"].update(
+                    f"Erros: {erros}/6"
+                )
+
+                # Verifica derrota
+                if erros >= 6:
+
+                    sg.popup(
+                        "Fim de jogo!",
+                        f"A palavra era: {palavra}"
+                    )
+
+                    # Encerra a partida atual
+                    palavra = ""
+
 # Fecha a janela ao terminar o programa
 window.close()
